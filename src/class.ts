@@ -1,7 +1,9 @@
-// Classes
-export class Invoice {    
-   
+// import {} from "../src/interfaces"
+import { hasFormatter } from "./interfaces/formats"
 
+// Classes
+export class Invoice implements hasFormatter {    
+   
     constructor( 
         readonly client: string,
         private details: string,
