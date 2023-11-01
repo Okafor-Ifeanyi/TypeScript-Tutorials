@@ -1,4 +1,18 @@
-import { Invoice } from './class.js'
+import { Invoice } from './classes/invoice.js'
+import { Payment } from './classes/payment.js'
+import { hasFormatter } from './interfaces/formats.js'
+
+let docOne: hasFormatter;
+let docTwo: hasFormatter;
+
+docOne = new Invoice("yoshi", "Dev per hour", 344);
+docTwo = new Payment("Iyk", "design work", 5000);
+
+let docs: hasFormatter[] = []
+docs.push(docOne)
+docs.push(docTwo)
+
+console.log(docs)
 
 const invOne = new Invoice("mario", "Mothly Salary", 250)
 const invTwo = new Invoice("luigi", "Mothly Salary", 400)
@@ -32,10 +46,12 @@ const amount = document.querySelector("#amount") as HTMLSelectElement
 form.addEventListener('submit', (e: Event) => {
     e.preventDefault();
 
-    console.log(
-        type.value,
-        tofrom.value,
-        details.value,
-        amount.value
-    )
+    let doc: hasFormatter;
+    if (type.value === "invoice"){
+        doc = new Invoice(tofrom.value, details.value, parseInt(amount.value))
+    } else {
+        doc = new Payment(tofrom.value, details.value, parseInt(amount.value))
+    }
+
+    console.log(doc);
 })

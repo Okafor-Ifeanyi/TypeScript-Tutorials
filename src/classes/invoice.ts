@@ -1,5 +1,5 @@
 // import {} from "../src/interfaces"
-import { hasFormatter } from "./interfaces/formats"
+import { hasFormatter } from "../interfaces/formats"
 
 // Classes
 export class Invoice implements hasFormatter {    
