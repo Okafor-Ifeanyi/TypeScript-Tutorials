@@ -1,17 +1,19 @@
-// Classes
-class Invoice {    
-   
+import { Invoice } from './classes/invoice.js'
+import { ListTemplate } from './classes/listTemplate.js';
+import { Payment } from './classes/payment.js'
+import { hasFormatter } from './interfaces/formats.js'
 
-    constructor( 
-        readonly client: string,
-        private details: string,
-        public amount: number ) {
-    }
+let docOne: hasFormatter;
+let docTwo: hasFormatter;
 
-    format (): string {
-        return `${this.client} owes ${this.amount} for ${this.details}`
-    }
-}
+docOne = new Invoice("yoshi", "Dev per hour", 344);
+docTwo = new Payment("Iyk", "design work", 5000);
+
+let docs: hasFormatter[] = []
+docs.push(docOne)
+docs.push(docTwo)
+
+console.log(docs)
 
 const invOne = new Invoice("mario", "Mothly Salary", 250)
 const invTwo = new Invoice("luigi", "Mothly Salary", 400)
@@ -42,13 +44,52 @@ const tofrom = document.querySelector("#tofrom") as HTMLSelectElement
 const details = document.querySelector("#details") as HTMLSelectElement
 const amount = document.querySelector("#amount") as HTMLSelectElement
 
+// list tmeplate imstance
+const ul = document.querySelector('ul')!;
+const list = new ListTemplate(ul)
+
 form.addEventListener('submit', (e: Event) => {
     e.preventDefault();
 
-    console.log(
-        type.value,
-        tofrom.value,
-        details.value,
-        amount.value
-    )
-})
+    let doc: hasFormatter;
+    if (type.value === "invoice"){
+        doc = new Invoice(tofrom.value, details.value, parseInt(amount.value))
+    } else {
+        doc = new Payment(tofrom.value, details.value, parseInt(amount.value))
+    }
+
+    list.render(doc, type.value, "end")
+    console.log(doc);
+}) 
+
+// GENERICS
+
+const addUID = <T>(obj: T) => {
+    let uid = Math.floor(Math.random() * 100);
+    return {...obj, uid}
+}
+
+let gen = addUID({name: "yohsi", age: 79})
+
+console.log(gen)
+
+interface Resource<T> {
+    uid: number;
+    resourceName: string;
+    data: T;
+}
+
+const docThree: Resource<object> = {
+    uid: 33,
+    resourceName: 'documents',
+    data: { name: "ifeanyi"}
+}
+
+const docFour : Resource<string> = {
+    uid: 34,
+    resourceName: "paper",
+    data: "Result"
+}
+
+console.log(docThree)
+console.log(docFour)
